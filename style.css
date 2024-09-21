@@ -13,7 +13,7 @@ a {
   color: white;
 }
 
-.hidden-navbar {
+#navbar {
   visibility: visible; /* Or you can use display: none; */
 }
 
