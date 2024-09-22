@@ -5229,7 +5229,6 @@ margin-left: 20px;
 .wrapper{
   max-width: 1920px;
   width: 100%;
-
   margin: 0 auto;
 }
 #blogs h2{
@@ -5239,14 +5238,17 @@ font-size: 56px;
 font-style: normal;
 font-weight: 700;
 line-height: 70px; 
-margin-bottom: 3rem;
+margin-bottom: 0;
 }
+
 .blogrow{
   display: grid;
 grid-template-columns: 1fr 1fr 1fr;
 gap: 25px;
 overflow: hidden;
+padding: 20px 0;
 }
+
 .blogcard{
   overflow: hidden;
   border-radius: 10px;
@@ -5254,11 +5256,13 @@ overflow: hidden;
   gap: 20px;
   display: flex;
   flex-direction: column;
- 
+ transition: box-shadow 0.3s ease;
 }
+
 .blogcard:hover{
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
 .blogcard img{
   border-radius: 15px;
   width: 100%;
