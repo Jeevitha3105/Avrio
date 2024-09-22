@@ -2625,6 +2625,7 @@ align-items: end;
   height: 300px;
   border-radius: 10px;
   transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  object-fit: cover;
 }
 
 .our-leader-images img.active{
@@ -4574,8 +4575,6 @@ progress {
  display: flex;
  flex-direction: row;
  gap: 10px;
- justify-content: end;
-align-items: end;
 }
 
 .our-leader-images img{
@@ -4696,20 +4695,21 @@ align-items: end;
   display: flex;
   flex-direction: row;
   gap: 10px;
-  justify-content: end;
-  align-items: end;
+  justify-content: center;
+  align-items: center;
   order: 1;
 }
 
 .slide-our-leader-images img {
-  width: 150px;
+  width: 100%;
   height: 300px;
   border-radius: 10px;
   transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  object-fit: cover;
 }
 
 .slide-our-leader-images img.active {
-  width: 300px;
+  width: 100%;
   height: 400px;
 }
 
