@@ -47,15 +47,16 @@ document.addEventListener("DOMContentLoaded", function () {
 //     preloader.style.display = "none";
 //   });
 window.addEventListener("load", function () {
-    const preloader = document.getElementById("preloader");
-    const navbar = document.getElementById("navbar");
+  const preloader = document.getElementById("preloader");
+  const navbar = document.getElementById("navbar");
 
-    // Hide the preloader when the page is fully loaded
-    preloader.style.display = "none";
+  // Hide the preloader when the page is fully loaded
+  preloader.style.display = "none";
 
-    // Show the navbar after the preloader disappears
-    navbar.style.visibility = "visible";
+  // Show the navbar after the preloader disappears
+  navbar.style.visibility = "visible";
 });
+
 
 
 

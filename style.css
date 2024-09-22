@@ -14,12 +14,12 @@ a {
 }
 
 #navbar {
-  visibility: visible; /* Or you can use display: none; */
+  visibility: hidden; /* Or you can use display: none; */
 }
 
 /* Preloader Styles */
 #preloader {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
