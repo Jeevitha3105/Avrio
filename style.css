@@ -324,10 +324,11 @@ a {
   text-align: center;
   justify-content: center;
   overflow: hidden; /* Hide overflow for smooth transition */
-  transition: height 0.5s ease; /* Smooth height transition */
+  transition: min-height 0.5s ease, padding 0.5s ease;
   height: 200px; /* Set to auto to fit content */
   padding: 45px 60px;
 }
+
 
 .card p {
   text-align: center;
@@ -349,7 +350,7 @@ a {
   text-align: center;
   color: #3a321d;
   font-size: 22px;
-  font-weight: 800; /* Tailwind's font-extrabold */
+  font-weight: 800; 
   font-family: "Montserrat", sans-serif;
   padding-bottom: 30px;
 }
@@ -357,32 +358,34 @@ a {
 .card h3 {
   text-align: center;
   color: #3a321d;
-  font-size: 14px; /* Equivalent to text-sm */
-  font-weight: 800; /* Tailwind's font-extrabold */
+  font-size: 14px;
+  font-weight: 800; 
   font-family: "Montserrat", sans-serif;
 }
 
 .card span {
   text-align: center;
   color: #3a321d;
-  font-size: 12px; /* Equivalent to text-xs */
+  font-size: 12px; 
   font-weight: normal;
   font-family: "Montserrat", sans-serif;
 }
 
-.card:hover {
-  height: auto; /* Adjust to fit expanded content */
+.card:hover{
+  min-height: 400px;
+  border-radius: 10px !important;
 }
 
 .card:hover p {
-  max-height: 300px; /* Adjust this value to fit the content height */
-  opacity: 1; /* Show the paragraph on hover */
+  max-height: 300px;
+  opacity: 1; 
   padding: 50px 0;
 }
 
 .card:hover h2 {
   padding-bottom: 0;
 }
+
 
 /* client section */
 .clients {
@@ -1617,6 +1620,8 @@ body.modal-open {
 
 .breadcrumb-nav {
   margin-top: 150px;
+  margin-left: 140px; 
+  margin-right: 140px;
 }
 
 /* nav */
@@ -1628,6 +1633,7 @@ body.modal-open {
   height: 82px;
   border-radius: 10px;
   margin-left: -20px;
+  max-width: 100%;
 }
 
 .breadcrumb a {
@@ -1645,7 +1651,8 @@ body.modal-open {
   font-weight: 700;
   line-height: 50px;
   position: relative;
-  width: 247px;
+  /* width: 237px;    */
+  flex-grow: 1;
   background: linear-gradient(90deg, #001aaf 0%, #871eb6 100%);
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
