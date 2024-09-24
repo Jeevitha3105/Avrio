@@ -52,9 +52,10 @@ window.addEventListener("load", function () {
 
   // Hide the preloader when the page is fully loaded
   preloader.style.display = "none";
-
+  if(navbar != null){
   // Show the navbar after the preloader disappears
   navbar.style.visibility = "visible";
+  }
 });
 
 
@@ -63,20 +64,20 @@ window.addEventListener("load", function () {
   
 
 //   tab section - mylearning page
-const tabItems = document.querySelectorAll('.tab-item');
-const tabContents = document.querySelectorAll('.content');
-const tabIndicator = document.querySelector('.tab-indicator');
+const sctabItems = document.querySelectorAll('.tab-item');
+const sctabContents = document.querySelectorAll('.content');
+const sctabIndicator = document.querySelector('.tab-indicator');
 
 // Function to handle tab switching
-tabItems.forEach((tab, index) => {
+sctabItems.forEach((tab, index) => {
   tab.addEventListener('click', () => {
     // Remove active class from all tabs and content sections
-    tabItems.forEach(item => item.classList.remove('active'));
-    tabContents.forEach(content => content.classList.remove('active-content'));
+    sctabItems.forEach(item => item.classList.remove('active'));
+    sctabContents.forEach(content => content.classList.remove('active-content'));
 
     // Add active class to the clicked tab and content
     tab.classList.add('active');
-    tabContents[index].classList.add('active-content');
+    sctabContents[index].classList.add('active-content');
 
     // Move the tab indicator to the clicked tab
     const tabRect = tab.getBoundingClientRect();
@@ -84,8 +85,8 @@ tabItems.forEach((tab, index) => {
     const tabWidth = tabRect.width;
     const tabLeft = tabRect.left - containerRect.left;
 
-    tabIndicator.style.width = `${tabWidth}px`;
-    tabIndicator.style.transform = `translateX(${tabLeft}px)`;
+    sctabIndicator.style.width = `${tabWidth}px`;
+    sctabIndicator.style.transform = `translateX(${tabLeft}px)`;
   });
 });
 
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabWidth = tabRect.width;
     const tabLeft = tabRect.left - containerRect.left;
 
-    tabIndicator.style.width = `${tabWidth}px`;
-    tabIndicator.style.transform = `translateX(${tabLeft}px)`;
+    sctabIndicator.style.width = `${tabWidth}px`;
+    sctabIndicator.style.transform = `translateX(${tabLeft}px)`;
   }
 });
