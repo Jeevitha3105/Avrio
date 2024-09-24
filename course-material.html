@@ -26,7 +26,7 @@
           <li><a href="./index.html">HOME</a></li>
           <li><a href="./learnings.html">MY LEARNINGS</a></li>
           <li><a href="./contactus.html">CONTACT</a></li>
-          <li><a href="#">LOGOUT</a></li>
+          <a href="#"><li>LOGOUT</li></a>
         </ul>
         <div class="humbargar">
           <div class="line1"></div>
@@ -574,167 +574,174 @@
 
     <!-- <script src="./script.js"></script> -->
 
-    <script>
-      const tabItems = document.querySelectorAll('.tab-item');
-const tabContents = document.querySelectorAll('.tab-content');
-const tabIndicator = document.querySelector('.tab-indicator');
-const nextButtons = document.querySelectorAll('.next-button');
-const takeAssessmentButton = document.querySelector('.take-assessment-button');
+<script>
 
-let currentTab = 0; // Track the current tab index
+    const tabItems = document.querySelectorAll('.tab-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const tabIndicator = document.querySelector('.tab-indicator');
+    const nextButtons = document.querySelectorAll('.next-button');
+    const takeAssessmentButton = document.querySelector('.take-assessment-button');
 
-// Function to handle tab switching
-function updateTab(index) {
-    currentTab = index;
+    let currentTab = 0; // Track the current tab index
+    let completedTabs = []; // Track which tabs are completed
+    let lastUnlockedTab = 0; // Track the farthest tab the user can access
+    let assessmentShown = false; // Flag to track if "Take Assessment" is shown
 
-    // Remove active class from all tabs and contents
-    tabItems.forEach((item, i) => {
+    // Function to handle tab switching
+    function updateTab(index) {
+      currentTab = index;
+
+      // Remove active class from all tabs and contents
+      tabItems.forEach((item, i) => {
         item.classList.toggle('active', i === index);
         tabContents[i].classList.toggle('active-content', i === index);
-    });
+      });
 
-    // Move the tab indicator to the active tab
-    const activeTab = tabItems[index];
-    const tabWidth = activeTab.offsetWidth;
-    const tabLeft = activeTab.offsetLeft;
-    tabIndicator.style.width = `${tabWidth}px`;
-    tabIndicator.style.transform = `translateX(${tabLeft}px)`;
+      // Move the tab indicator to the active tab
+      const activeTab = tabItems[index];
+      const tabWidth = activeTab.offsetWidth;
+      const tabLeft = activeTab.offsetLeft;
+      tabIndicator.style.width = `${tabWidth}px`;
+      tabIndicator.style.transform = `translateX(${tabLeft}px)`;
 
-    // Close all accordions in the active tab except the first one
-    const activeContent = tabContents[index];
-    const accordions = activeContent.querySelectorAll('.tab-accordion');
-    
-    accordions.forEach((accordion, i) => {
-        const header = accordion.querySelector('.tab-accordion-header');
-        const content = accordion.querySelector('.tab-accordion-content');
-        const icon = header.querySelector('.fas');
+      // Unlock all accordions in the current tab
+      unlockAllAccordions();
 
-        if (i === 0) {
-            // Always open the first accordion
-            openAccordion(header, true);
-        } else {
-            // Close all other accordions
-            content.classList.remove('open');
-            icon.classList.remove('rotate');
-        }
-    });
-}
-
-// Function to handle accordion opening and closing
-function openAccordion(header, isFirstAccordion = false) {
-    const content = header.nextElementSibling;
-    const icon = header.querySelector('.fas');
-
-    if (header.disabled) return; // Prevent opening if the header is disabled
-
-    // Only close other accordions if this is not the first accordion
-    if (!isFirstAccordion) {
-        document.querySelectorAll('.tab-accordion-header').forEach(item => {
-            if (item !== header && !item.classList.contains('first-accordion')) {
-                item.nextElementSibling.classList.remove('open');
-                item.querySelector('.fas').classList.remove('rotate');
-            }
-        });
+      // Ensure all first accordions are open
+      ensureFirstAccordionAlwaysOpen();
     }
 
-    // Toggle the clicked accordion
-    content.classList.toggle('open');
-    icon.classList.toggle('rotate');
-}
+    // Function to unlock all accordions in the current tab
+    function unlockAllAccordions() {
+      const accordions = tabContents[currentTab].querySelectorAll('.tab-accordion');
+      accordions.forEach(accordion => {
+        const header = accordion.querySelector('.tab-accordion-header');
+        header.disabled = false; // Enable all headers
+      });
+    }
 
-// Set up event listeners for the tabs
-tabItems.forEach((tab, index) => {
-    tab.addEventListener('click', () => {
-        if (index <= currentTab) { // Allow switching to unlocked tabs
-            updateTab(index);
-            takeAssessmentButton.style.display = 'none'; // Hide button on tab switch
+    // Function to ensure all first accordions are open
+    function ensureFirstAccordionAlwaysOpen() {
+      const accordions = tabContents[currentTab].querySelectorAll('.tab-accordion');
+      const firstAccordionHeader = accordions[0].querySelector('.tab-accordion-header');
+      const firstAccordionContent = accordions[0].querySelector('.tab-accordion-content');
+
+      // Open the first accordion if it's not already open
+      if (!firstAccordionContent.classList.contains('open')) {
+        openAccordion(firstAccordionHeader, true);
+      }
+    }
+
+    // Function to handle accordion opening and closing
+    function openAccordion(header, isFirstAccordion = false) {
+      const content = header.nextElementSibling;
+      const icon = header.querySelector('.fas');
+
+      // If the header is disabled, do nothing
+      if (header.disabled) return;
+
+      // Toggle the clicked accordion
+      const isOpen = content.classList.contains('open');
+
+      // Close other accordions if this is not the first accordion and the current one is not open
+      if (!isFirstAccordion && !isOpen) {
+        document.querySelectorAll('.tab-accordion-header').forEach(item => {
+          if (item !== header && !item.classList.contains('first-accordion')) {
+            item.nextElementSibling.classList.remove('open');
+            item.querySelector('.fas').classList.remove('rotate');
+          }
+        });
+      }
+
+      // Toggle the content open/close
+      content.classList.toggle('open', !isOpen);
+      icon.classList.toggle('rotate', !isOpen);
+    }
+
+    // Set up event listeners for the tabs
+    tabItems.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        // Allow switching to unlocked or completed tabs
+        if (index <= lastUnlockedTab || completedTabs.includes(index)) {
+          updateTab(index);
         }
+      });
     });
-});
 
-// Set up event listeners for accordion headers
-document.addEventListener('click', (event) => {
-    if (event.target.matches('.tab-accordion-header')) {
+    // Set up event listeners for accordion headers
+    document.addEventListener('click', (event) => {
+      if (event.target.matches('.tab-accordion-header')) {
         const header = event.target;
         const isFirstAccordion = header.classList.contains('first-accordion');
         openAccordion(header, isFirstAccordion);
-    }
-});
+      }
+    });
 
-// Set up event listeners for "Next" buttons
-nextButtons.forEach((button) => {
-    button.addEventListener('click', () => {
+    // Set up event listeners for "Next" buttons
+    nextButtons.forEach((button) => {
+      button.addEventListener('click', () => {
         const currentAccordion = button.closest('.tab-accordion');
         const nextAccordion = currentAccordion.nextElementSibling;
 
-        if (nextAccordion) {
-            // Open the next accordion
-            const nextHeader = nextAccordion.querySelector('.tab-accordion-header');
-            nextHeader.disabled = false;
-            openAccordion(nextHeader); // Open the next accordion
-        } else {
-            // Check if the current tab is the last tab and update button visibility
-            if (currentTab === tabItems.length - 1) {
-                takeAssessmentButton.style.display = 'block'; // Show the Take Assessment button
-            } else if (currentTab < tabItems.length - 1) {
-                // Move to the next tab
-                currentTab += 1;
-                updateTab(currentTab);
-                // The button will be hidden initially, only shown after the last accordion's "Next" is clicked
-            }
+        // Unlock the previous accordion when moving to the next one
+        const prevAccordion = currentAccordion.previousElementSibling;
+        if (prevAccordion) {
+          const prevHeader = prevAccordion.querySelector('.tab-accordion-header');
+          prevHeader.disabled = false; // Enable the previous accordion header
         }
+
+        if (nextAccordion) {
+          // Open the next accordion
+          const nextHeader = nextAccordion.querySelector('.tab-accordion-header');
+          nextHeader.disabled = false;
+          openAccordion(nextHeader); // Open the next accordion
+        } else {
+          // If the current tab is completed, add it to the completedTabs array
+          completedTabs.push(currentTab);
+
+          // Unlock the next tab
+          if (currentTab < tabItems.length - 1) {
+            lastUnlockedTab = currentTab + 1;
+            updateTab(lastUnlockedTab); // Move to the next tab
+          }
+
+          // Show the Take Assessment button only if the last tab's last next button was clicked
+          if (currentTab === tabItems.length - 1 && button === nextButtons[nextButtons.length - 1]) {
+            assessmentShown = true; // Set the flag to true
+            takeAssessmentButton.style.display = 'block'; // Show the Take Assessment button
+          }
+        }
+
+        // Show the Take Assessment button if it was previously shown
+        if (assessmentShown) {
+          takeAssessmentButton.style.display = 'block';
+        } else {
+          takeAssessmentButton.style.display = 'none'; // Hide it otherwise
+        }
+      });
     });
-});
 
-// Initialize the first tab and accordion as active on page load
-document.addEventListener('DOMContentLoaded', () => {
-    updateTab(currentTab); 
-});
+    // Set up event listeners for the "Take Assessment" button
+    takeAssessmentButton.addEventListener('click', () => {
+      // Logic for taking the assessment
+    });
 
+    // Initialize the first tab and accordion as active on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateTab(currentTab);
+      ensureFirstAccordionAlwaysOpen(); // Ensure the first accordion is always open initially
+    });
 
-
-
-
-// breadcrumb nav
-document.querySelector('.breadcrumb').addEventListener('click', function(event) {
-  let target = event.target;
-
-  // If the clicked element is the span, get its parent (the <a> tag)
-  if (target.tagName === 'SPAN' && target.classList.contains('inner-text')) {
-    target = target.parentElement;
-  }
-
-  // Only proceed if an <a> tag was clicked
-  if (target.tagName === 'A' && event.currentTarget.contains(target)) {
-    const links = event.currentTarget.querySelectorAll('a');
-    
-    // Remove 'active' class from all links
-    links.forEach(link => link.classList.remove('active'));
-
-    // Add 'active' class to the clicked link
-    target.classList.add('active');
-  }
-});
+    // Set up event listeners for arrow icons
+    document.addEventListener('click', (event) => {
+      if (event.target.closest('.arrow-icon')) {
+        const header = event.target.closest('.tab-accordion-header');
+        openAccordion(header); // Open the accordion of its header
+      }
+    });
 
 
 
-
-
-
-
-
-
-
-
-        // navbar
-        let button = document.querySelector(".humbargar");
-        let menu = document.querySelector(".nav ul");
-        button.addEventListener("click", () => {
-            menu.classList.toggle("display");
-            button.children[0].classList.toggle("toggle1");
-            button.children[1].classList.toggle("toggle2");
-            button.children[2].classList.toggle("toggle3");
-        });
-    </script>
+</script>
 </body>
 </html>
