@@ -2668,6 +2668,7 @@ progress::-ms-fill {
   margin-bottom: 20px;
   border-bottom: 2px solid #3a321d;
   width: max-content;
+  cursor: pointer;
 }
 
 .our-leader-text p {
@@ -4716,6 +4717,7 @@ progress::-ms-fill {
     margin-bottom: 20px;
     border-bottom: 2px solid #3a321d;
     width: max-content;
+    cursor: pointer;
   }
 
   .slide-our-leader-text p {
