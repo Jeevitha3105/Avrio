@@ -2679,6 +2679,11 @@ progress::-ms-fill {
   line-height: 35px;
   margin-bottom: 20px;
   width: 90%;
+  display: none;
+}
+
+.our-leader-text p.active {
+  display: block; /* Show active paragraphs */
 }
 
 .our-leader-images {
@@ -4722,6 +4727,11 @@ progress::-ms-fill {
     line-height: 35px;
     margin-bottom: 20px;
     width: 90%;
+    display: none;
+  }
+
+  .slide-our-leader-text p.active {
+    display: block;
   }
 
   .slide-left-side-content {

@@ -51,7 +51,11 @@ window.addEventListener("load", function () {
   const navbar = document.getElementById("navbar");
 
   // Hide the preloader when the page is fully loaded
-  preloader.style.display = "none";
+
+  if(preloader){
+    preloader.style.display = "none";
+  }
+
   if(navbar != null){
   // Show the navbar after the preloader disappears
   navbar.style.visibility = "visible";

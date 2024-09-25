@@ -754,6 +754,50 @@ document.addEventListener('click', (event) => {
 });
 
 
+
+
+
+
+
+
+
+
+
+
+// navbar
+let button=document.querySelector(".humbargar");
+        let menu=document.querySelector(".nav ul");
+        button.addEventListener("click", ()=>{
+            menu.classList.toggle("display");
+            button.children[0].classList.toggle("toggle1");
+            button.children[1].classList.toggle("toggle2");
+            button.children[2].classList.toggle("toggle3");
+        });
+
+
+
+        // breadcrumb nav
+document.querySelector('.breadcrumb').addEventListener('click', function(event) {
+  let target = event.target;
+
+  // If the clicked element is the span, get its parent (the <a> tag)
+  if (target.tagName === 'SPAN' && target.classList.contains('inner-text')) {
+    target = target.parentElement;
+  }
+
+  // Only proceed if an <a> tag was clicked
+  if (target.tagName === 'A' && event.currentTarget.contains(target)) {
+    const links = event.currentTarget.querySelectorAll('a');
+    
+    // Remove 'active' class from all links
+    links.forEach(link => link.classList.remove('active'));
+
+    // Add 'active' class to the clicked link
+    target.classList.add('active');
+  }
+});
+
+
 </script>
 </body>
 </html>
